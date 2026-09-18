@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
     depends_on:
       - core
-    env_file: ./compose.env
+    env_file: ./.env
     volumes:
       ## Attach the Core / Periphery communication keys
       - keys:/config/keys
