@@ -6,5 +6,5 @@ Run with:
 
 ```bash
 cp .env.example .env
-docker compose -p komodo -f komodo/mongo.compose.yaml --env-file komodo/.env up -d
+docker compose -p komodo -f mongo.compose.yaml --env-file .env up -d
 ```
