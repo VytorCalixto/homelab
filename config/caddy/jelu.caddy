@@ -1,0 +1,3 @@
+livros.rotiav.com.br {
+        reverse_proxy :1111
+}

@@ -1,0 +1,13 @@
+services:
+  jelu:
+    image: wabayang/jelu:0.87.3
+    container_name: jelu
+    volumes:
+      - /srv/homelab/jelu/config:/config
+      - /srv/homelab/jelu/database:/database
+      - /srv/homelab/jelu/files/images:/files/images
+      - /srv/homelab/jelu/files/imports:/files/imports
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - 127.0.0.1:11111:11111
+    restart: unless-stopped
