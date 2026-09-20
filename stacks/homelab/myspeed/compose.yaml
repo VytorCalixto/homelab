@@ -1,0 +1,13 @@
+services:
+  myspeed:
+    ports:
+      - 127.0.0.1:5216:5216
+    volumes:
+      - /home/vytor/apps/myspeed:/myspeed/data
+    restart: unless-stopped
+    container_name: MySpeed
+    image: germannewsmaker/myspeed:latest
+volumes:
+  myspeed:
+    external: false
+
