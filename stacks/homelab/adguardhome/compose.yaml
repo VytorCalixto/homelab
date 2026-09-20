@@ -1,0 +1,13 @@
+services:
+  adguardhome:
+    container_name: adguardhome
+    hostname: adguardhome
+    restart: always
+    image: adguard/adguardhome
+    volumes:
+      - /home/vytor/apps/adguard/workdir:/opt/adguardhome/work
+      - /home/vytor/apps/adguard/confdir:/opt/adguardhome/conf
+    network_mode: "host"
+    environment:
+      PUID: 1000
+      PGID: 1000
