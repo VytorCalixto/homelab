@@ -4,6 +4,8 @@ services:
     command: server
     restart: unless-stopped
     shm_size: 512mb
+    ports:
+      - 127.0.0.1:9000:9000
     environment:
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
       AUTHENTIK_POSTGRESQL__HOST: ${AUTHENTIK_POSTGRESQL__HOST:-postgres}
