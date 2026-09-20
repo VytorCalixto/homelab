@@ -13,6 +13,7 @@ services:
       - /srv/homelab/mealie/data:/app/data/
     environment:
       - ALLOW_SIGNUP=false                       # Allows new user signups on the Mealie instance.
+      - OIDC_AUTH_ENABLED=true
       - PUID=1000                                # Sets the user ID for the container.
       - PGID=1000                                # Sets the group ID for the container.
       - TZ=America/Sao_Paulo                     # Sets the timezone for the container.
