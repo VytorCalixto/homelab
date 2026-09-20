@@ -1,0 +1,3 @@
+komodo.rotiav.com.br {
+        reverse_proxy :9120
+}
