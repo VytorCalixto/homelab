@@ -1,0 +1,65 @@
+ervices:
+  server:
+    image: ghcr.io/goauthentik/server:2026.8.2
+    command: server
+    restart: unless-stopped
+    shm_size: 512mb
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_POSTGRESQL__HOST: ${AUTHENTIK_POSTGRESQL__HOST:-postgres}
+      AUTHENTIK_POSTGRESQL__PORT: ${AUTHENTIK_POSTGRESQL__PORT:-5432}
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
+      AUTHENTIK_POSTGRESQL__USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD:?database password required}
+    volumes:
+      - ./data:/data
+      - ./custom-templates:/templates
+    networks:
+      - homelab-backend
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker:
+    image: ghcr.io/goauthentik/server:2026.8.2
+    command: worker
+    restart: unless-stopped
+    shm_size: 512mb
+    user: root
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_POSTGRESQL__HOST: ${AUTHENTIK_POSTGRESQL__HOST:-postgres}
+      AUTHENTIK_POSTGRESQL__PORT: ${AUTHENTIK_POSTGRESQL__PORT:-5432}
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
+      AUTHENTIK_POSTGRESQL__USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD:?database password required}
+    volumes:
+      - ./data:/data
+      - ./certs:/certs
+      - ./custom-templates:/templates
+    networks:
+      - homelab-backend
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --save
+      - ""
+      - --appendonly
+      - "no"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - homelab-backend
+
+networks:
+  homelab-backend:
+    external: true
