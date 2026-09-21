@@ -11,8 +11,6 @@ services:
       - 127.0.0.1:5173:3000
     volumes:
       - /srv/homelab/linkwarden/data:/data/data
-    depends_on:
-      - postgres
 
 networks:
   homelab-backend:
