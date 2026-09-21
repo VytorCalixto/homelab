@@ -1,0 +1,19 @@
+services:
+  linkwarden:
+    env_file:
+      - ./.env
+    restart: unless-stopped
+    image: ghcr.io/linkwarden/linkwarden:latest
+    container_name: linkwarden
+    networks:
+      - homelab-backend
+    ports:
+      - 127.0.0.1:5173:3000
+    volumes:
+      - /srv/homelab/linkwarden/data:/data/data
+    depends_on:
+      - postgres
+
+networks:
+  homelab-backend:
+    external: true
