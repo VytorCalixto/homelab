@@ -1,0 +1,32 @@
+services:
+
+  app:
+    image: ghcr.io/mattogodoy/nametag:latest
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3030:3000'
+    env_file:
+      - ./.env
+    volumes:
+      - /srv/homelab/nametag/photo_data:/app/data/photos
+    networks:
+      - homelab_backend
+
+  cron:
+    image: alpine:3.19
+    restart: unless-stopped
+    command: >
+      sh -c "
+        echo '0 8 * * * wget -q -O - --header=\"Authorization: Bearer '\"$$CRON_SECRET\"'\" http://app:3000/api/cron/send-reminders > /proc/1/fd/1 2>&1' > /etc/crontabs/root &&
+        echo '0 3 * * * wget -q -O - --header=\"Authorization: Bearer '\"$$CRON_SECRET\"'\" http://app:3000/api/cron/purge-deleted > /proc/1/fd/1 2>&1' >> /etc/crontabs/root &&
+        echo '0 2,10,18 * * * wget -q -O - --header=\"Authorization: Bearer '\"$$CRON_SECRET\"'\" http://app:3000/api/cron/carddav-sync > /proc/1/fd/1 2>&1' >> /etc/crontabs/root &&
+        echo '*/5 * * * * wget -q -O - --header=\"Authorization: Bearer '\"$$CRON_SECRET\"'\" http://app:3000/api/cron/geocode > /proc/1/fd/1 2>&1' >> /etc/crontabs/root &&
+        crond -f -l 2
+      "
+    environment:
+      - CRON_SECRET=${CRON_SECRET}
+    depends_on:
+      - app
+    networks:
+      - homelab_backend
+
