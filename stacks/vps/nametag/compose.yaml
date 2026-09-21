@@ -30,3 +30,6 @@ services:
     networks:
       - homelab-backend
 
+networks:
+  homelab-backend:
+    external: true
