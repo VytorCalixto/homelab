@@ -1,0 +1,39 @@
+---
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      JELLYFIN_PublishedServerUrl: ${JELLYFIN_PUBLISHED_SERVER_URL}
+      DOCKER_MODS: ghcr.io/intro-skipper/intro-skipper-docker-mod
+    volumes:
+      - /home/vytor/apps/jellyfin:/config
+      - /media/media:/data:ro
+    devices:
+      - /dev/dri:/dev/dri
+    ports:
+      - "8096:8096"
+    networks:
+      - media
+
+  jellyseerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: ${JELLYSEERR_LOG_LEVEL:-info}
+      TZ: ${TZ}
+      PORT: 5055
+    volumes:
+      - /home/vytor/apps/jellyseer:/app/config
+    ports:
+      - "5055:5055"
+    networks:
+      - media
+
+networks:
+  media:
+    external: true

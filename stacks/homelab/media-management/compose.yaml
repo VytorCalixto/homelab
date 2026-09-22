@@ -1,0 +1,64 @@
+---
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - /home/vytor/apps/radarr:/config
+      - /media/media:/data
+    ports:
+      - "7878:7878"
+    networks:
+      - media
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - /home/vytor/apps/sonarr:/config
+      - /media/media:/data
+    ports:
+      - "8989:8989"
+    networks:
+      - media
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - /home/vytor/apps/prowlarr/data:/config
+    ports:
+      - "9696:9696"
+    networks:
+      - media
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - /home/vytor/apps/bazarr/config:/config
+      - /media/media:/data
+    ports:
+      - "6767:6767"
+    networks:
+      - media
+
+networks:
+  media:
+    external: true
