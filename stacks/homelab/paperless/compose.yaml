@@ -4,13 +4,19 @@ services:
     restart: unless-stopped
     volumes:
       - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     restart: unless-stopped
     depends_on:
-      - broker
+      broker:
+        condition: service_healthy
     ports:
-      - "7070:8000"
+      - "10.100.0.2:7070:8000"
     volumes:
       - /home/vytor/apps/paperless/data:/usr/src/paperless/data
       - /home/vytor/apps/paperless/media:/usr/src/paperless/media
