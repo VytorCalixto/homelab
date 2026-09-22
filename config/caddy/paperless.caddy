@@ -1,0 +1,3 @@
+paperless.rotiav.com.br {
+    reverse_proxy 10.100.0.2:7070
+}
