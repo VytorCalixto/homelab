@@ -11,7 +11,8 @@ services:
       DOCKER_MODS: ghcr.io/intro-skipper/intro-skipper-docker-mod
     volumes:
       - /home/vytor/apps/jellyfin:/config
-      - /media/media:/data:ro
+      - /media/media/tv:/data/tvshows
+      - /media/media/movies:/data/movies
     devices:
       - /dev/dri:/dev/dri
     ports:

@@ -9,7 +9,8 @@ services:
       TZ: ${TZ}
     volumes:
       - /home/vytor/apps/radarr:/config
-      - /media/media:/data
+      - /media/media/movies:/movies
+      - /media/media/downloads:/downloads
     ports:
       - "7878:7878"
     networks:
@@ -24,7 +25,8 @@ services:
       TZ: ${TZ}
     volumes:
       - /home/vytor/apps/sonarr:/config
-      - /media/media:/data
+      - /media/media/tv:/tv
+      - /media/media/downloads:/downloads
     ports:
       - "8989:8989"
     networks:
@@ -53,7 +55,8 @@ services:
       TZ: ${TZ}
     volumes:
       - /home/vytor/apps/bazarr/config:/config
-      - /media/media:/data
+      - /media/media/movies:/movies
+      - /media/media/tv:/tv
     ports:
       - "6767:6767"
     networks:

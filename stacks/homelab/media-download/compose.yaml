@@ -11,7 +11,7 @@ services:
       TORRENTING_PORT: 6881
     volumes:
       - /home/vytor/apps/qbittorrent:/config
-      - /media/media:/data
+      - /media/media/downloads:/downloads
     ports:
       - "8088:8088"
       - "6881:6881"
