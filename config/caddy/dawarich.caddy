@@ -1,0 +1,3 @@
+dawarich.rotiav.com.br {
+    reverse_proxy :3033
+}
