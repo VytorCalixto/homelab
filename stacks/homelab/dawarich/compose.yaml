@@ -59,7 +59,7 @@ services:
     networks:
       - dawarich
     ports:
-      - "127.0.0.1:${DAWARICH_APP_PORT:-3000}:3000"
+      - "${DAWARICH_APP_PORT:-3000}:3000"
     stdin_open: true
     tty: true
     entrypoint: web-entrypoint.sh
